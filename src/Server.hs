@@ -14,6 +14,7 @@ api = userInfo <> statement
 
 userInfo :: ScottyM ()
 userInfo = get "/user-info/:token" $ do
+  liftAndCatchIO (putStrLn "userInfo request")
   token <- param "token"
   info  <- liftAndCatchIO (clientInfo baseMonobankUrl token)
   case info of
@@ -22,6 +23,7 @@ userInfo = get "/user-info/:token" $ do
 
 statement :: ScottyM ()
 statement = get "/statement/:account-id/:from/:token" $ do
+  liftAndCatchIO (putStrLn "statement request")
   accountId <- param "account-id"
   token     <- param "token"
   from      <- param "from"
