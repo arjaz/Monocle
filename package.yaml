@@ -27,6 +27,7 @@ dependencies:
 - lens-aeson
 - wreq
 - scotty
+- wai-cors
 
 library:
   source-dirs: src
