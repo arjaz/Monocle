@@ -24,11 +24,11 @@ userInfo = get "/user-info/:token" $ do
 statement :: ScottyM ()
 statement = get "/statement/:account-id/:from/:token" $ do
   liftAndCatchIO (putStrLn "statement request")
-  accountId <- param "account-id"
-  token     <- param "token"
-  from      <- param "from"
-  txs       <- liftAndCatchIO
-    (accountStatement baseMonobankUrl token accountId from Nothing)
+  accountId' <- param "account-id"
+  token      <- param "token"
+  from       <- param "from"
+  txs        <- liftAndCatchIO
+    (accountStatement baseMonobankUrl token accountId' from Nothing)
   case txs of
     Left  err -> json (err ^. responseStatus . statusCode)
     Right t   -> json t
