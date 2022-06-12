@@ -10,7 +10,7 @@ import           Network.Wreq                   ( responseStatus
 import           Web.Scotty
 
 api :: ScottyM ()
-api = userInfo <> statement
+api = userInfo <> statement <> healthcheck
 
 userInfo :: ScottyM ()
 userInfo = get "/user-info/:token" $ do
@@ -32,3 +32,8 @@ statement = get "/statement/:account-id/:from/:token" $ do
   case txs of
     Left  err -> json (err ^. responseStatus . statusCode)
     Right t   -> json t
+
+healthcheck :: ScottyM ()
+healthcheck = get "/healthcheck" $ do
+  liftAndCatchIO (putStrLn "healthcheck request")
+  json ("ok" :: String)
